@@ -3,8 +3,6 @@
 if ( ! defined( 'WPINC' ) ) {
   die;
 }
-    
-if (file_exists($debug_file = 'd:\Work\WP-tools\debug\debug.php')) INCLUDE ( $debug_file );
 
 define( 'BCCSS_ASSET_PATH', trailingslashit(wp_get_upload_dir()["basedir"]).'better-custom-css/');
 
@@ -33,27 +31,6 @@ if ( !function_exists( 'load_my_styles' ) ){
 
     add_action( 'wp_print_styles', 'load_bccss_styles', 1 );
 }
-
-// if ( ! function_exists( 'bccss_get_page_and_post_slug' )){
-//     function bccss_get_page_and_post_slug( $css_type ) {
-    
-//             $result = ( $css_type == 'template' ? 'template-'.get_template_slug() : $css_type.'-'.get_the_ID() );
-            
-//             return $result;
-    
-//     }
-// }
-
-// if ( ! function_exists( 'bccss_get_archive_slug' )){
-//     function bccss_get_archive_slug( $css_type ) {
-            
-
-//             $result = ( $css_type == 'template' ? 'template-'.get_template_slug() : $css_type.'-'.get_the_ID() );
-            
-//             return $result;
-    
-//     }
-// }
 
 if ( ! function_exists( 'str_remove_dashes' ) ){
 	function str_remove_dashes( $string ) {
