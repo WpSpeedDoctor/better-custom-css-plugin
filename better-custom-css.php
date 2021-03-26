@@ -1,10 +1,10 @@
 <?php
-
+	
 /**
  * @wordpress-plugin
  * Plugin Name:       Better custom CSS
  * Description:       A better way to add custom CSS per page or temaplate
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Jaro Kurimsky <pixtweaks@protonmail.com>
  * Author URI:        https://github.com/WpSpeedDoctor/
  * License:           GPL-2.0+
@@ -16,8 +16,8 @@ if ( ! defined( 'WPINC' ) ) {
   die;
 }
 	
-if ( ! function_exists( 'bccss_check_if_user_is_admin' )){
-	function bccss_check_if_user_is_admin() {
+if ( ! function_exists( 'bccss_load_topbar_menu_for_admin' )){
+	function bccss_load_topbar_menu_for_admin() {
 
 			if ( current_user_can( 'manage_options' ) && !get_option('bccss-disabled') )
 			
@@ -30,7 +30,7 @@ if ( ! function_exists( 'bccss_front_end' )){
 	
 		require_once plugin_dir_path( __FILE__ ) . 'front-end.php'; 
 
-		add_action('wp','bccss_check_if_user_is_admin');
+		add_action('wp','bccss_load_topbar_menu_for_admin');
 
 	}
 }
