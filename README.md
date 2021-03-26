@@ -36,7 +36,8 @@ For example, if you have template CSS loaded and then you add individual page CS
 Here is a video on how it works and how to use it.
 [![Watch the video](https://wpspeeddoctor.com/wp-content/uploads/video-preview/video-preview.jpg)](https://www.youtube.com/watch?v=1gxJ1xweiXc)
 
-#Move plugin into the child theme!
+
+# Move plugin into the child theme!
 After you set your custom CSS go in WP admin menu Settings/Better custom CSS where you'll get the command you need to place in child theme in order to run it as a part of the child theme. So di this steps:
 
 1. Go to Settings/Better custom CSS
