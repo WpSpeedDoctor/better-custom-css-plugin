@@ -36,6 +36,17 @@ For example, if you have template CSS loaded and then you add individual page CS
 Here is a video on how it works and how to use it.
 [![Watch the video](https://wpspeeddoctor.com/wp-content/uploads/video-preview/video-preview.jpg)](https://www.youtube.com/watch?v=1gxJ1xweiXc)
 
+#Move plugin into the child theme!
+After you set your custom CSS go in WP admin menu Settings/Better custom CSS where you'll get the command you need to place in child theme in order to run it as a part of the child theme. So di this steps:
+
+1. Go to Settings/Better custom CSS
+2. Copy PHP command for child theme, starting with: ```require_once ( trailingslashit( get_theme_file_path() )```
+3. Deactivate Better custom CSS plugin
+4. Use file manager to move plugin folder ```wp-content/plugins/better-custom-css-main``` to child theme folder in ```/wp-content/themes/YOUR-CHILD-THEME```
+5. Edit functions.php file in the child theme, add text you have copied on point 2.
+
+Now your settings menu will be in Appearance. 
+
 Quick tip:
 Regarding the general style of the child theme, my recommendation is to:
 ```
