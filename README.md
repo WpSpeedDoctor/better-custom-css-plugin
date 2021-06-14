@@ -33,7 +33,8 @@ The priority of styles are the following:
 ```
 For example, if you have template CSS loaded and then you add individual page CSS, styles in the individual CSS file will have higher priority than template CSS styles. No more using "!important"!
 
-Here is a video on how it works and how to use it.
+Here is the video on how it works and how to use it. (video update needed, made for older version, still valid for latest version)
+
 [![Watch the video](https://wpspeeddoctor.com/wp-content/uploads/video-preview/video-preview.jpg)](https://www.youtube.com/watch?v=1gxJ1xweiXc)
 
 
@@ -45,8 +46,9 @@ After you set your custom CSS go in WP admin menu Settings/Better custom CSS whe
 3. Deactivate Better custom CSS plugin
 4. Use file manager to move plugin folder ```wp-content/plugins/better-custom-css-main``` to child theme folder in ```/wp-content/themes/YOUR-CHILD-THEME```
 5. Edit functions.php file in the child theme, add text you have copied on point 2.
+6. If you have created CSS files before migrating to child theme, you need to move your CSS files from ```/wp-content/uploads/better-custom-css``` to ```/wp-content/themes/your-child-theme/assets/css/```
 
-Now your settings menu will be in Appearance. 
+Now the plugin's settings menu will be in Appearance. 
 
 Quick tip:
 Regarding the general style of the child theme, my recommendation is to:
@@ -57,6 +59,6 @@ Regarding the general style of the child theme, my recommendation is to:
 ```
 An example of filtering would be if you have a blog and parent style.css contain CSS styles for Woocommerce, but you don't use Woocommerce, then just delete the Woocommerce part. This way you can save easily 20% of its original size.
 
-Any feedback or tips welcome on email pixtweaks at protonmail.com
+Any feedback or improment tips are welcome on email pixtweaks at protonmail.com
 
 I hope it will make your life easier and your website faster to load on slow mobile devices. Enjoy!
