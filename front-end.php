@@ -39,7 +39,7 @@ function get_asset_location_bccss(){
 
 
 
-if ( !function_exists( 'load_my_styles' ) ){
+if ( !function_exists( 'load_styles_bccss' ) ){
 	function load_styles_bccss() {
 
 		create_css_file_bccss();
