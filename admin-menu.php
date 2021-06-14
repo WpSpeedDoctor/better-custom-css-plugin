@@ -4,7 +4,7 @@ if ( ! defined( 'WPINC' ) ) {
   die;
 }
 
-if ( BCCSS_IS_PLUGIN && ! function_exists( 'add_action_links' ) && basename($_SERVER['REQUEST_URI']) == 'plugins.php' ){
+if ( is_wp_plugin_page_bccss() && BCCSS_IS_PLUGIN && ! function_exists( 'add_action_links' ) ){
     
     function add_action_links ( $actions ) {
 
@@ -19,7 +19,13 @@ if ( BCCSS_IS_PLUGIN && ! function_exists( 'add_action_links' ) && basename($_SE
        return $actions;
     }
 
-add_filter( 'plugin_action_links_' .'better-custom-css/better-custom-css.php', 'add_action_links' );
+add_filter( 'plugin_action_links_' .basename(__DIR__).'/better-custom-css.php', 'add_action_links' );
+
+}
+
+function is_wp_plugin_page_bccss(){
+
+	return basename(strtok($_SERVER["REQUEST_URI"], '?')) == 'plugins.php' ? true : false;
 
 }
 
@@ -102,14 +108,14 @@ if ( ! function_exists( 'admin_page_bccss' )){
 
 if ( ! function_exists( 'the_plugin_location_message' )){
 	function the_plugin_location_message() {
-	
+
 		?>
 		<p style="max-width:600px">
 			<?php echo _("You're running Better Custom CSS as a plugin. To avoid accidental deactivation, you can run Better Custom CSS code directly from the child theme. Just move plugin folder to the child theme folder and add to functions.php in the child theme:");?>
 		</p>
 		
 		<p style="max-width: 600px;background-color: #ddd;width: fit-content;padding: 0 10px 3px;font-weight: 500;">
-			require_once ( trailingslashit( get_theme_file_path() ) . 'better-custom-css/better-custom-css.php');
+			require_once ( trailingslashit( get_theme_file_path() ) . '<?=basename(__DIR__)?>/better-custom-css.php');
 		</p>
 		
 		<p style="max-width:600px">
