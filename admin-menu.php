@@ -4,28 +4,40 @@ if ( ! defined( 'WPINC' ) ) {
   die;
 }
 
-if ( ! function_exists( 'is_inside_the_theme' ) ){
-	function is_inside_the_theme() {
+if ( BCCSS_IS_PLUGIN && ! function_exists( 'add_action_links' ) && basename($_SERVER['REQUEST_URI']) == 'plugins.php' ){
+    
+    function add_action_links ( $actions ) {
 
-	return is_int( strpos(__DIR__, basename( get_theme_file_path() ) ));
-	}
+    	$admin_submenu_location = get_admin_submenu_location();
+
+       $mylinks = array(
+          '<a href="' . admin_url( $admin_submenu_location.'?page=better_custom_css' ) . '">Settings</a>',
+       );
+
+       $actions = array_merge( $mylinks, $actions );
+
+       return $actions;
+    }
+
+add_filter( 'plugin_action_links_' .'better-custom-css/better-custom-css.php', 'add_action_links' );
+
 }
 
-if ( ! function_exists( 'register_bccss_plugin_settings' )){
-	function register_bccss_plugin_settings( $modules ) {
+if ( ! function_exists( 'register_plugin_settings_bccss' )){
+	function register_plugin_settings_bccss( $modules ) {
 		
 		register_setting( 'bccss-settings', 'bccss-disabled' );
 	
 	}
 	
-	add_action ('init', 'register_bccss_plugin_settings');
+	add_action ('init', 'register_plugin_settings_bccss');
 }
 
 
-if ( ! function_exists( 'custom_menu' )){
-	function custom_menu() {
+if ( ! function_exists( 'custom_menu_bccss' )){
+	function custom_menu_bccss() {
 
-		$admin_submenu_location = ( is_inside_the_theme()  ? 'themes.php': 'options-general.php' );
+		$admin_submenu_location = get_admin_submenu_location();
 
 		add_submenu_page( 
 
@@ -34,22 +46,31 @@ if ( ! function_exists( 'custom_menu' )){
 			'Better Custom CSS', 
 			'administrator', 
 			'better_custom_css', 
-			'bc_css_admin_page', 
+			'admin_page_bccss', 
 			'dashicons-layout' 
 
 		);
 	}
-	add_action('admin_menu', 'custom_menu');
+	add_action('admin_menu', 'custom_menu_bccss');
 }
 
-if ( ! function_exists( 'bc_css_admin_page' )){
-	function bc_css_admin_page() {
+if ( ! function_exists( 'get_admin_submenu_location' )){
+	function get_admin_submenu_location() {
+	
+	return BCCSS_IS_PLUGIN  ? 'options-general.php' : 'themes.php';
+	
+	}
+}
+
+
+if ( ! function_exists( 'admin_page_bccss' )){
+	function admin_page_bccss() {
 		
 		$setting_value = get_option('bccss-disabled');
 
 		$setting_status = ( $setting_value == '1' ? 'checked' : '');
 
-		bccss_disable_autoload( $setting_value )
+		disable_autoload_in_options_table_bccss( $setting_value )
 
 		?>
 		<div id="wpbody-content">
@@ -70,19 +91,7 @@ if ( ! function_exists( 'bc_css_admin_page' )){
 					<?php submit_button('Save settings'); ?>
 				</form>
 
-				<?php
-				if (!is_inside_the_theme()) {
-					
-					echo '<p style="max-width:600px">'._('You\'re running Better Custom CSS as a plugin. To avoid accidental deactivation, you can run Better Custom CSS code directly from the child theme. Just move plugin folder to the child theme folder and add to functions.php in the child theme:') . '</p>';
-					
-					echo '<p style="max-width: 600px;background-color: #ddd;width: fit-content;padding: 0 10px 3px;font-weight: 500;">require_once ( trailingslashit( get_theme_file_path() ) . \''.basename(__DIR__).'/better-custom-css.php\'); </p>';
-					
-					echo '<p style="max-width:600px">'._('After you do that, this plugin\'s settings menu will be automatically moved to theme menu "Appearance".') . '</p>';
-					
-					
-					
-				}
-				?>
+				<?php if ( BCCSS_IS_PLUGIN ) the_plugin_location_message() ?>
 				
 			</div>
 		</div>
@@ -91,8 +100,30 @@ if ( ! function_exists( 'bc_css_admin_page' )){
 	}
 }
 
-if ( ! function_exists( 'bccss_disable_autoload' )){
-	function bccss_disable_autoload( $setting_value ) {
+if ( ! function_exists( 'the_plugin_location_message' )){
+	function the_plugin_location_message() {
+	
+		?>
+		<p style="max-width:600px">
+			<?php echo _("You're running Better Custom CSS as a plugin. To avoid accidental deactivation, you can run Better Custom CSS code directly from the child theme. Just move plugin folder to the child theme folder and add to functions.php in the child theme:");?>
+		</p>
+		
+		<p style="max-width: 600px;background-color: #ddd;width: fit-content;padding: 0 10px 3px;font-weight: 500;">
+			require_once ( trailingslashit( get_theme_file_path() ) . 'better-custom-css/better-custom-css.php');
+		</p>
+		
+		<p style="max-width:600px">
+			<?php echo _('After you do that, this plugin\'s settings menu will be automatically moved to theme menu "Appearance".'); ?>
+		</p>
+
+		<?php
+
+	}
+}
+
+
+if ( ! function_exists( 'disable_autoload_in_options_table_bccss' )){
+	function disable_autoload_in_options_table_bccss( $setting_value ) {
 	
 		$setting_status_string = ( $setting_value == '1' ? '1' : '0');
 
